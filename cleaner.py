@@ -6,6 +6,7 @@ def clean(text):
     #Replace punctuation and quotes
     text1 = text.replace('\"', '').replace('\'', '').replace(',', '').replace('?', '').replace('!', '').replace('.', '')
     #Remove leading and trailing whitespace
+    text1 = text1.replace('(', '').replace(')', '').replace(':', '').replace(';', '')
     text1 = text1.strip()
     #Remove multiple new lines
     text1 = re.sub(r'\r\n','\n',text1)
