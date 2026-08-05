@@ -1,0 +1,1 @@
+Retrieval Augmented Generation LLM that is built from scratch without the aid of Auto Complete or Copilot.
