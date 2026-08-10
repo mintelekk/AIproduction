@@ -67,7 +67,7 @@ def main():
     #AI transformation
 
 
-    embeddings = embedding.generateEmbedding(chunked, chunk_ids)
+    embeddings = embedding.generateEmbedding(chunked, chunk_ids, connection, cursor)
     #embedding.insert_embeddings(embeddings, connection, cursor)
 
     print(embeddings[0].shape)
