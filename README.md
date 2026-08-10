@@ -1,12 +1,59 @@
-Retrieval Augmented Generation LLM that is built from scratch without the aid of Auto Complete or Copilot.
+Retrieval-Augmented Generation LLM
 
-Set Up: Activate .venv/Scripts/Activate
-Set virtual environment to .venv/Scripts/python.exe  
-Add documents/ folder with .docx, .txt or .pdf file textbooks. Then, users can execute data preprocess the files and ask questions.
+A Retrieval-Augmented Generation (RAG) system built from scratch without relying on AI coding assistants such as autocomplete or GitHub Copilot. The project implements the core RAG pipeline, including document parsing, text preprocessing, chunking, embeddings, SQLite storage, semantic retrieval, and question answering.
 
-Step 1: Run Main.py to preprocess the books in documents/ folder
-Use the command "python -m pytest tests/test_preprocessing_main.py -v -s" to see the stored SQLite database. Prints out 
-Documents:  file name and number of pages.
-chunks per document: document # and number of 100 word chunks in database. 
+Setup
+Activate the virtual environment:
+.venv\Scripts\Activate
+Configure your Python interpreter to:
+.venv\Scripts\python.exe
+Add source documents to the documents/ folder. Supported formats include:
+.pdf
+.docx
+.txt
 
-Step 2: Run retriever.py
+Textbooks and other technical documents can be used as the source material.
+
+Step 1: Document Preprocessing
+
+Run Main.py to preprocess the documents in the documents/ folder.
+
+The preprocessing pipeline:
+
+Documents
+    ↓
+Parsing
+    ↓
+Text Cleaning
+    ↓
+Tokenization
+    ↓
+100-Word Chunking
+    ↓
+Embeddings
+    ↓
+SQLite Database
+
+To run the preprocessing tests and inspect the resulting database:
+
+python -m pytest tests/test_preprocessing_main.py -v -s
+
+The test output displays information such as:
+
+Documents:
+The document ID, filename, and number of pages for each processed document.
+
+Chunks per document:
+The document ID and number of 100-word chunks stored in the SQLite database.
+
+Step 2: Semantic Retrieval
+
+Run:
+
+python retriever.py
+
+The retriever will take a user's question, generate an embedding for the question, compare it against the stored document embeddings using cosine similarity, and return the most relevant document chunks.
+
+Project Goal
+
+The goal of this project is to understand and implement the fundamental components of a RAG system rather than relying on high-level frameworks to abstract away the underlying concepts.
