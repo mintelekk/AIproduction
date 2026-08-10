@@ -16,5 +16,6 @@ def clean(text):
     text1 = re.sub(r'\t+',' ',text1)
     #Remove extra white space
     text1 = re.sub(r'\n\s*\n+','\n\n', text1)
-
+    #Remove non UTF-8 Characters
+    text1 = text1.encode("utf-8", errors="ignore").decode("utf-8")
     return text1

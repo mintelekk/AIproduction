@@ -37,38 +37,37 @@ def main():
     #print(parser.parse('SpaceX cover.docx').text)
     title = 'documents/learntocode.txt'
     title2 = 'documents/SpaceX cover.docx'
-    '''
-    #Loop through input folder
-    documents_folder = Path("documents")
 
-    for file in documents_folder.iterdir():
-        if file.is_file():
-    '''
     #DB set up
     connection = sqlite3.connect("db/ai_production.db")
     cursor = connection.cursor()
     create_tables(connection, cursor)
 
-    #Data Preprocessing
-    #Parse data from documents folder
-    doc_id, doc_text = parser.parse(title, connection, cursor)
+    #Loop through input folder
+    documents_folder = Path("documents")
 
-    #Clean data into proper format
-    cleaned = cleaner.clean(doc_text)
+    for file in documents_folder.iterdir():
+        if file.is_file():
+            #Data Preprocessing
+            #Parse data from documents folder
+            doc_id, doc_text = parser.parse('documents/' + file.name, connection, cursor)
 
-    #Tokenize words
-    tokenized = tokenizer.tokenize(cleaned)
+            #Clean data into proper format
+            cleaned = cleaner.clean(doc_text)
 
-    #Chunk into 100 word chunks
-    chunked, chunk_ids = chunker.chunk(tokenized, doc_id, connection, cursor)
+            #Tokenize words
+            tokenized = tokenizer.tokenize(cleaned)
 
-    #print(chunked)
-    print(chunked[0])
-    #AI transformation
+            #Chunk into 100 word chunks
+            chunked, chunk_ids = chunker.chunk(tokenized, doc_id, connection, cursor)
+
+            #print(chunked)
+            print(chunked[0])
+            #AI transformation
 
 
-    embeddings = embedding.generateEmbedding(chunked, chunk_ids, connection, cursor)
-    #embedding.insert_embeddings(embeddings, connection, cursor)
+            embeddings = embedding.generateEmbedding(chunked, chunk_ids, connection, cursor)
+            #embedding.insert_embeddings(embeddings, connection, cursor)
 
     print(embeddings[0].shape)
     print(embeddings[0])
