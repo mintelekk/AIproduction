@@ -27,7 +27,7 @@ def insert_chunks(chunks, connection_1, cursor_1):
 #Order tokens into lists of 100 length.
 def chunk(tokens, doc_id, connection_1, cursor_1):
     chunks = []
-    for i in range(0, len(tokens), 100):
+    for i in range(0, len(tokens), 80):
         chunki = []
         for i2 in range(i, min(i+ 100,len(tokens))):
             chunki.append(tokens[i2])
