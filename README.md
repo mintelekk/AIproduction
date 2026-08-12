@@ -11,8 +11,10 @@ Add source documents to the documents/ folder. Supported formats include:
 .pdf
 .docx
 .txt
-
 Textbooks and other technical documents can be used as the source material.
+Run ollama3 after install all dependencies.
+ollama run llama3
+
 
 Step 1: Document Preprocessing
 
