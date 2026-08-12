@@ -49,12 +49,25 @@ Chunks per document:
 The document ID and number of 100-word chunks stored in the SQLite database.
 
 Step 2: Semantic Retrieval
+SQLite database
+   ↓
+User question
+   ↓
+Question embedding
+   ↓
+Cosine similarity
+   ↓
+Top 5 relevant chunks
+   ↓
+Ollama LLM
+   ↓
+Final answer
 
 Run:
 
 python retriever.py
 
-The retriever will take a user's question, generate an embedding for the question, compare it against the stored document embeddings using cosine similarity, and return the most relevant document chunks.
+The retriever will take a user's question, generate an embedding for the question, compare it against the stored document embeddings using cosine similarity, and return the most relevant document chunks. Then, Ollama3 will take the context as input and print out the answer according to what it found in the source documents.
 
 Project Goal
 
