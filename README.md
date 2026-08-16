@@ -11,7 +11,8 @@ Add source documents to the documents/ folder. Supported formats include:
 .pdf
 .docx
 .txt
-Textbooks and other technical documents can be used as the source material.
+Textbooks and other technical documents can be used as the source material. 
+Textbook file names should be name of textbook with underscores as spaces.
 Run ollama3 after install all dependencies.
 ollama run llama3
 
