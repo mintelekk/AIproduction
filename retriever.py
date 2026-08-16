@@ -25,6 +25,19 @@ def get_embeddings(cursor):
         ans.append((row[0], embedding))
     return ans
 
+def get_document_name(cursor, docu_id):
+    ans = []
+    for d in docu_id:
+
+        #SQL select query to get from database
+        cursor.execute(""" 
+            SELECT filename
+            FROM Documents
+            WHERE document_id = ?
+        """, (d,))
+        row = cursor.fetchone()
+        ans.append(" ".join(row[0].split(".")[0].split("/")[1].split("_")))
+    return ans
 def rank_chunks(question_embedding, rows, top_n):
 
     cosine_sim = []
@@ -41,15 +54,17 @@ def rank_chunks(question_embedding, rows, top_n):
 
 def get_chunk_text(top_n_chunks, cursor):
     texts = []
+    docu_id = []
     for chunk_id, score in top_n_chunks:
         cursor.execute("""
-            SELECT text
+            SELECT text, document_id
             FROM chunks
             WHERE chunk_id = ?
         """, (chunk_id,))
         row = cursor.fetchone()
         texts.append(row[0])
-    return texts
+        docu_id.append(row[1])
+    return texts, docu_id
 
 def print_answer(top_n_chunks, cursor):
     texts = get_chunk_text(top_n_chunks, cursor)
@@ -60,14 +75,19 @@ def print_answer(top_n_chunks, cursor):
         print("\n", texts[i])
 
 def print_answer_LLM(top_n_chunks, question, cursor):
-    texts = get_chunk_text(top_n_chunks, cursor)
-    context = "\n\n".join(texts)
+    texts, docu_id = get_chunk_text(top_n_chunks, cursor)
+    document_names = get_document_name(cursor, docu_id)
+    context = ""
+    for text, document_name in zip(texts,document_names):
+        context+="\n\n"
+        context+=text
+        context+="\nSource document: " + document_name
     response = chat(
         model="llama3",
         messages=[
             {
                 "role": "system",
-                "content": "Answer the user's question using only the provided context."
+                "content": "Answer the user's question using only the provided context. Have the source document listed below the answer."
             },
             {
                 "role": "user",
